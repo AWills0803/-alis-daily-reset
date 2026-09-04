@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f0dd">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ali's Daily Reset">
+<title>Ali's Daily Reset</title>
+<style>
+  :root{
+    --bg:#f7f4ea; --card:#fffdf7; --ink:#2e2d2a; --muted:#777267;
+    --line:#ddd6c7; --accent:#d7a500; --soft:#f1ead5; --green:#dfeadb;
+    --shadow:0 8px 24px rgba(50,45,35,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{min-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:720px;margin:auto;padding:18px 14px 90px}
+  header{padding:10px 4px 14px}
+  h1{font-size:31px;line-height:1.05;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:15px}
+  .datebar{display:flex;gap:8px;align-items:center;margin-top:14px}
+  input[type=date]{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:white;flex:1}
+  button,.btn{font:inherit;border:0;border-radius:12px;padding:11px 14px;background:var(--ink);color:white;font-weight:650;text-decoration:none;display:inline-block;text-align:center}
+  .btn.light{background:var(--soft);color:var(--ink)}
+  .btn.gold{background:var(--accent);color:#1f1d16}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+  .card h2{font-size:20px;margin:0 0 8px}
+  .card p{margin:6px 0;color:var(--muted);line-height:1.35}
+  .pill{display:inline-block;background:var(--soft);border-radius:999px;padding:6px 9px;font-size:13px;font-weight:700;margin:3px 4px 3px 0}
+  .task{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #ece6d8}
+  .task:last-child{border-bottom:0}
+  .task input{width:22px;height:22px;accent-color:var(--accent);margin-top:1px}
+  .task label{flex:1;font-size:17px;line-height:1.25}
+  .small{font-size:13px;color:var(--muted);display:block;margin-top:3px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .metric{background:#fbf8ef;border:1px solid var(--line);border-radius:14px;padding:12px}
+  .metric label{display:block;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .metric input,.metric textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;background:white}
+  textarea{min-height:80px;resize:vertical}
+  .progress{height:10px;background:#e8e1d1;border-radius:999px;overflow:hidden;margin-top:10px}
+  .progress > div{height:100%;width:0;background:var(--accent);transition:.2s}
+  .footerbar{position:fixed;left:0;right:0;bottom:0;background:rgba(247,244,234,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .footerbar .inner{max-width:720px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .status{font-weight:750;margin-top:8px}
+  .note{background:var(--green);border-radius:14px;padding:10px 12px;margin-top:10px;color:#3d493a}
+  @media(max-width:480px){.grid{grid-template-columns:1fr}.wrap{padding-top:8px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="icon.png" alt="" style="width:58px;height:58px;border-radius:15px;box-shadow:var(--shadow)">
+      <div>
+        <h1 style="margin-bottom:4px">Ali's Daily Reset</h1>
+        <div class="sub">Plan • Focus • Balance • Repeat</div>
+      </div>
+    </div>
+    <div class="sub">Structured enough to keep you on track. Flexible enough for real life.</div>
+    <div class="datebar">
+      <input id="date" type="date">
+      <button class="btn light" onclick="goToday()">Today</button>
+    </div>
+  </header>
+
+  <section class="card" id="dayPlan">
+    <h2 id="dayTitle">Today's Plan</h2>
+    <div id="dayPills"></div>
+    <p id="dayNote"></p>
+  </section>
+
+  <section class="card">
+    <h2>☀️ My Daily To-Do List</h2>
+    <p><strong>Start at 5:00 AM.</strong> Work down the list, but walks, shower, Mom coffee and workouts can move around when life requires it.</p>
+
+    <h3>5:00 AM • Start My Day</h3>
+    <div class="task"><input id="todo_devotions" type="checkbox"><label for="todo_devotions">Devotions</label></div>
+    <div class="task"><input id="todo_prayer" type="checkbox"><label for="todo_prayer">Prayer</label></div>
+    <div class="task"><input id="todo_affirmations" type="checkbox"><label for="todo_affirmations">Affirmations</label></div>
+    <div class="task"><input id="todo_coach" type="checkbox"><label for="todo_coach">Check in with Chat Coach</label></div>
+    <div class="task"><input id="todo_weather" type="checkbox"><label for="todo_weather">Check weather</label></div>
+    <div class="task"><input id="todo_texts" type="checkbox"><label for="todo_texts">Respond to important texts</label></div>
+    <div class="task"><input id="todo_mfp" type="checkbox"><label for="todo_mfp">Plan / pre-log today's food in MyFitnessPal</label></div>
+
+    <h3>Early Morning • Move + Get Ready</h3>
+    <div class="task"><input id="todo_walk" type="checkbox"><label for="todo_walk">Outside walk if possible<span class="small">Ideally first. If it doesn't work, move it later in the day.</span></label></div>
+    <div class="task"><input id="todo_gym" type="checkbox"><label for="todo_gym"><span id="gymToday">Gym / workout according to today's plan</span></label></div>
+    <div class="task"><input id="todo_shower" type="checkbox"><label for="todo_shower">Shower / get ready if needed</label></div>
+    <div class="task"><input id="todo_mom" type="checkbox"><label for="todo_mom">Coffee with Mom + makeup while visiting when it works</label></div>
+    <div class="task"><input id="todo_kids" type="checkbox"><label for="todo_kids">Kids / breakfast / morning home stuff</label></div>
+    <div class="task"><input id="todo_leave" type="checkbox"><label for="todo_leave"><strong id="leaveToday">Out the door target</strong></label></div>
+
+    <h3>During the Day</h3>
+
+    <h3 style="font-size:17px;margin-top:10px">💼 Work Focus</h3>
+    <div class="task"><input id="todo_teamcheck" type="checkbox"><label for="todo_teamcheck">Team check-in</label></div>
+    <div class="task"><input id="todo_notes" type="checkbox"><label for="todo_notes">Notes / follow-ups</label></div>
+    <div class="task"><input id="todo_popbys" type="checkbox"><label for="todo_popbys">Pop-bys / client touches</label></div>
+    <div class="task"><input id="todo_lunchmeet" type="checkbox"><label for="todo_lunchmeet">Lunch / relationship building if scheduled</label></div>
+    <div class="task"><input id="todo_office" type="checkbox"><label for="todo_office">Focused office time</label></div>
+    <div class="task"><input id="todo_calls" type="checkbox"><label for="todo_calls">Calls / conversations</label></div>
+
+    <h3 style="font-size:17px;margin-top:16px">🥗 Health Through the Day</h3>
+    <div class="task"><input id="todo_afternoongym" type="checkbox"><label for="todo_afternoongym">Afternoon / midday gym option<span class="small">Use when the morning gym doesn't work, or as your planned Tuesday workout.</span></label></div>
+    <div class="task"><input id="todo_food" type="checkbox"><label for="todo_food">Stay with planned food / log in MyFitnessPal</label></div>
+    <div class="task"><input id="todo_protein" type="checkbox"><label for="todo_protein">Protein focus</label></div>
+    <div class="task"><input id="todo_water" type="checkbox"><label for="todo_water">Water</label></div>
+    <div class="task"><input id="todo_steps" type="checkbox"><label for="todo_steps">Work toward 10,000+ steps</label></div>
+
+    <h3>Later Afternoon • Recharge</h3>
+    <div class="task"><input id="todo_nap" type="checkbox"><label for="todo_nap">Optional nap / quiet rest<span class="small">A reset when you need it, not another daily requirement.</span></label></div>
+    <div class="task"><input id="todo_selfhelp" type="checkbox"><label for="todo_selfhelp">Read a self-help / personal growth book</label></div>
+
+    <h3>Evening • Family + Real Life</h3>
+    <div class="task"><input id="todo_sports" type="checkbox"><label for="todo_sports">Kids' sports / activities if scheduled</label></div>
+    <div class="task"><input id="todo_workappt" type="checkbox"><label for="todo_workappt">Work appointments if scheduled</label></div>
+    <div class="task"><input id="todo_family" type="checkbox"><label for="todo_family">Family time</label></div>
+    <div class="task"><input id="todo_eveningwalk" type="checkbox"><label for="todo_eveningwalk">Evening walk if needed or wanted<span class="small">Backup if morning walk didn't happen, to finish 10K, or an optional second walk.</span></label></div>
+
+    <h3>Nightly Reset</h3>
+    <div class="task"><input id="todo_lunches" type="checkbox"><label for="todo_lunches">Make lunches</label></div>
+    <div class="task"><input id="todo_stepcheck" type="checkbox"><label for="todo_stepcheck">Final step check — 10,000 goal</label></div>
+    <div class="task"><input id="todo_calendar" type="checkbox"><label for="todo_calendar">Check tomorrow's calendar</label></div>
+    <div class="task"><input id="todo_foodprep" type="checkbox"><label for="todo_foodprep">Prep / plan tomorrow's food if helpful</label></div>
+    <div class="task"><input id="todo_clothes" type="checkbox"><label for="todo_clothes">Set out workout / next-day clothes</label></div>
+    <div class="task"><input id="todo_reset" type="checkbox"><label for="todo_reset">Quick kitchen / home reset</label></div>
+    <div class="task"><input id="todo_leisureread" type="checkbox"><label for="todo_leisureread">Read a leisure book before bed<span class="small">Wind down and get off the phone.</span></label></div>
+    <div class="task"><input id="todo_bed" type="checkbox"><label for="todo_bed">Bedtime that protects tomorrow's early start</label></div>
+  </section>
+
+  <section class="card">
+    <h2>Nutrition & Food Log</h2>
+    <p>Use MyFitnessPal for the detailed food diary. Use this section for your daily coaching totals.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px">
+      <a class="btn gold" href="https://www.myfitnesspal.com/food/diary" target="_blank">Open MyFitnessPal</a>
+      <button class="btn light" onclick="copyCoachCheckin()">Copy Coach Check-In</button>
+    </div>
+    <div class="grid">
+      <div class="metric"><label>Calories</label><input id="calories" type="number" placeholder="e.g. 1450"></div>
+      <div class="metric"><label>Protein (g)</label><input id="protein" type="number" placeholder="e.g. 115"></div>
+      <div class="metric"><label>Steps</label><input id="steps" type="number" placeholder="e.g. 10000"></div>
+      <div class="metric"><label>Water</label><input id="water" type="text" placeholder="e.g. 2.5 L"></div>
+    </div>
+    <div class="progress"><div id="stepBar"></div></div>
+    <div class="status" id="stepStatus">10,000-step goal</div>
+    <div class="task"><input id="foodPlanned" type="checkbox"><label for="foodPlanned">Food planned/logged in MyFitnessPal</label></div>
+    <div class="task"><input id="noAlcohol" type="checkbox"><label for="noAlcohol">No alcohol / unnecessary drink calories</label></div>
+  </section>
+
+  <section class="card">
+    <h2>Nightly Reset</h2>
+    <div id="nightTasks"></div>
+  </section>
+
+  <section class="card">
+    <h2>Daily Log</h2>
+    <div class="grid">
+      <div class="metric"><label>Weight (optional)</label><input id="weight" type="number" step="0.1" placeholder="Skip if you want"></div>
+      <div class="metric"><label>Energy 1–10</label><input id="energy" type="number" min="1" max="10" placeholder="1–10"></div>
+    </div>
+    <div class="metric" style="margin-top:10px"><label>Today's win</label><textarea id="win" placeholder="One thing you did well..."></textarea></div>
+    <div class="metric" style="margin-top:10px"><label>Notes / cravings / patterns</label><textarea id="notes" placeholder="Anything I should know for coaching..."></textarea></div>
+    <div class="task"><input id="movedGoal" type="checkbox"><label for="movedGoal">Today's choices moved me toward stronger & leaner.</label></div>
+  </section>
+</div>
+
+<div class="footerbar">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div class="btn light" id="autosaveStatus" style="pointer-events:none">Auto-save is on ✓</div>
+  </div>
+</div>
+
+<script>
+const morningBase = [
+  ["devotions","Devotions"],
+  ["prayer","Prayer"],
+  ["affirmations","Affirmations"],
+  ["coach","Check in with Chat Coach","30 seconds is enough — consistency first."],
+  ["weather","Check weather"],
+  ["texts","Respond to important texts"],
+  ["mfpplan","Plan / pre-log food in MyFitnessPal","Decide before the busy part of the day starts."]
+];
+
+const movementBase = [
+  ["walk","Outside walk","Best early when it works; move it later when it doesn't."],
+  ["gym","Gym / workout if scheduled"],
+  ["stepscheck","10,000+ steps by bedtime","Evening walk is the backup if you are short."]
+];
+
+const nightBase = [
+  ["lunches","Make lunches"],
+  ["tomorrowCal","Check tomorrow's calendar"],
+  ["prepFood","Prep / plan tomorrow's food if helpful"],
+  ["clothes","Set out workout / next-day clothes"],
+  ["stepsNight","Check step count — 10,000 goal"],
+  ["eveningWalk","Evening walk if needed","Required only if you're behind on movement; second walk is optional."],
+  ["kitchen","Quick kitchen / home reset"],
+  ["bed","Protect bedtime for the 5 AM wake-up"]
+];
+
+const plans = {
+  0:{name:"Sunday", pills:["Rest day"], note:"Gym off. Normal movement or an easy walk is fine. Recovery counts.", out:null},
+  1:{name:"Monday", pills:["Morning gym","Leave ~7:30 for gym"], note:"Walk first if the morning allows. If not, get the gym done and move the walk later.", out:"8:30"},
+  2:{name:"Tuesday", pills:["Midday gym","Out the door by 8:00"], note:"Morning walk is ideal. Gym can happen midday, so don't cram it into the morning.", out:"8:00"},
+  3:{name:"Wednesday", pills:["Morning gym","Leave ~7:30 for gym"], note:"Same rhythm as Monday: early walk when possible, gym around 7:30.", out:"8:30"},
+  4:{name:"Thursday", pills:["Recovery / flexible","Make-up gym if needed"], note:"Usually off. Use this as breathing room if another workout was missed.", out:"8:30"},
+  5:{name:"Friday", pills:["Morning gym"], note:"Morning gym day. Walk whenever it fits.", out:"8:30"},
+  6:{name:"Saturday", pills:["Morning gym","Flexible morning"], note:"No need for a rigid clock. Gym in the morning, steps through the day.", out:null}
+};
+
+function taskHTML(items, prefix){
+  return items.map(([id,label,small]) =>
+    `<div class="task"><input type="checkbox" id="${prefix}_${id}">
+      <label for="${prefix}_${id}">${label}${small?`<span class="small">${small}</span>`:""}</label></div>`
+  ).join("");
+}
+document.getElementById("morningTasks").innerHTML = taskHTML(morningBase,"m");
+document.getElementById("movementTasks").innerHTML = taskHTML(movementBase,"mv");
+document.getElementById("nightTasks").innerHTML = taskHTML(nightBase,"n");
+
+const dateEl = document.getElementById("date");
+dateEl.value = new Date().toISOString().slice(0,10);
+dateEl.addEventListener("change", loadDay);
+
+function dayKey(){ return "ali-reset-"+dateEl.value; }
+
+function renderPlan(){
+  const d = new Date(dateEl.value+"T12:00:00");
+  const p = plans[d.getDay()];
+  document.getElementById("dayTitle").textContent = p.name + " Plan";
+  let pills = [...p.pills];
+  if(p.out) pills.push("Out by "+p.out);
+  document.getElementById("dayPills").innerHTML = pills.map(x=>`<span class="pill">${x}</span>`).join("");
+  let coffee = "Shower / get ready and coffee with Mom can move around the walk and workout.";
+  document.getElementById("dayNote").textContent = p.note + " " + coffee;
+  const gym = document.getElementById("gymToday");
+  const leave = document.getElementById("leaveToday");
+  if(d.getDay()===1 || d.getDay()===3) gym.textContent = "Morning gym — aim to head out around 7:30";
+  else if(d.getDay()===2) gym.textContent = "Midday gym";
+  else if(d.getDay()===4) gym.textContent = "Recovery day — make-up gym only if needed";
+  else if(d.getDay()===5 || d.getDay()===6) gym.textContent = "Morning gym";
+  else gym.textContent = "Sunday — gym off / recovery";
+  if(d.getDay()===2) leave.textContent = "Out the door by 8:00 AM";
+  else if(d.getDay()>=1 && d.getDay()<=5) leave.textContent = "Out the door by 8:30 AM";
+  else leave.textContent = "Flexible weekend morning";
+}
+
+function allInputs(){
+  return [...document.querySelectorAll("input, textarea")].filter(x=>x.id!=="date");
+}
+function saveDay(){
+  const data={};
+  allInputs().forEach(el=> data[el.id] = el.type==="checkbox" ? el.checked : el.value);
+  localStorage.setItem(dayKey(), JSON.stringify(data));
+  const s=document.getElementById("autosaveStatus");
+  if(s){ s.textContent="Saved ✓"; setTimeout(()=>s.textContent="Auto-save is on ✓",700); }
+}
+function loadDay(){
+  renderPlan();
+  allInputs().forEach(el=>{ if(el.type==="checkbox") el.checked=false; else el.value="";});
+  const raw=localStorage.getItem(dayKey());
+  if(raw){
+    const data=JSON.parse(raw);
+    allInputs().forEach(el=>{
+      if(data[el.id]!==undefined){
+        if(el.type==="checkbox") el.checked=data[el.id];
+        else el.value=data[el.id];
+      }
+    });
+  }
+  updateSteps();
+}
+function resetDay(){
+  if(!confirm("Clear today's checkmarks and log?")) return;
+  localStorage.removeItem(dayKey()); loadDay();
+}
+function goToday(){
+  dateEl.value = new Date().toISOString().slice(0,10); loadDay();
+}
+function updateSteps(){
+  const v=Number(document.getElementById("steps").value||0);
+  const pct=Math.min(100,(v/10000)*100);
+  document.getElementById("stepBar").style.width=pct+"%";
+  document.getElementById("stepStatus").textContent =
+    v>=10000 ? `Goal hit — ${v.toLocaleString()} steps ✓` :
+    `${v.toLocaleString()} / 10,000 steps`;
+}
+document.getElementById("steps").addEventListener("input",()=>{updateSteps(); saveDay();});
+allInputs().forEach(el=>{
+  el.addEventListener("change",saveDay);
+  if(el.type!=="checkbox") el.addEventListener("input",saveDay);
+});
+
+function copyCoachCheckin(){
+  const c=document.getElementById("calories").value||"—";
+  const p=document.getElementById("protein").value||"—";
+  const s=document.getElementById("steps").value||"—";
+  const w=document.getElementById("weight").value||"skip";
+  const e=document.getElementById("energy").value||"—";
+  const win=document.getElementById("win").value||"—";
+  const notes=document.getElementById("notes").value||"—";
+  const txt=`Ali coaching check-in — ${dateEl.value}
+Weight: ${w}
+Calories: ${c}
+Protein: ${p} g
+Steps: ${s}
+Energy: ${e}/10
+Win: ${win}
+Notes/patterns: ${notes}`;
+  navigator.clipboard.writeText(txt).then(()=>alert("Coach check-in copied!"));
+}
+
+loadDay();
+</script>
+</body>
+</html>
