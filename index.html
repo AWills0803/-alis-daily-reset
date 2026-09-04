@@ -37,6 +37,7 @@
   .task:last-child{border-bottom:0}
   .task input{width:22px;height:22px;accent-color:var(--accent);margin-top:1px}
   .task label{flex:1;font-size:17px;line-height:1.25}
+  .task input:checked + label{text-decoration:line-through;opacity:.55}
   .small{font-size:13px;color:var(--muted);display:block;margin-top:3px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .metric{background:#fbf8ef;border:1px solid var(--line);border-radius:14px;padding:12px}
@@ -219,9 +220,7 @@ function taskHTML(items, prefix){
     `<div class="task"><input type="checkbox" id="${prefix}_${id}">
       <label for="${prefix}_${id}">${label}${small?`<span class="small">${small}</span>`:""}</label></div>`
   ).join("");
-}
-document.getElementById("morningTasks").innerHTML = taskHTML(morningBase,"m");
-document.getElementById("movementTasks").innerHTML = taskHTML(movementBase,"mv");
+
 document.getElementById("nightTasks").innerHTML = taskHTML(nightBase,"n");
 
 const dateEl = document.getElementById("date");
