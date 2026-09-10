@@ -50,7 +50,13 @@
   .footerbar .inner{max-width:720px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .status{font-weight:750;margin-top:8px}
   .note{background:var(--green);border-radius:14px;padding:10px 12px;margin-top:10px;color:#3d493a}
-  @media(max-width:480px){.grid{grid-template-columns:1fr}.wrap{padding-top:8px}h1{font-size:28px}}
+  .weekly-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .weekly-stat{background:#fbf8ef;border:1px solid var(--line);border-radius:14px;padding:12px}
+  .weekly-stat .label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .weekly-stat .value{font-size:22px;font-weight:800;margin-top:4px}
+  .analysis-box{background:var(--green);border-radius:14px;padding:12px;margin-top:12px;line-height:1.4}
+  .analysis-box strong{display:block;margin-bottom:4px}
+  @media(max-width:480px){.grid,.weekly-stats{grid-template-columns:1fr}.wrap{padding-top:8px}h1{font-size:28px}}
 </style>
 </head>
 <body>
@@ -69,6 +75,7 @@
       <button class="btn light" onclick="goToday()">Today</button>
     </div>
   </header>
+
   <section class="card" id="dayPlan">
     <h2 id="dayTitle">Today's Plan</h2>
     <div id="dayPills"></div>
@@ -78,6 +85,7 @@
   <section class="card">
     <h2>☀️ My Daily To-Do List</h2>
     <p><strong>Start at 5:00 AM.</strong> Work down the list, but walks, shower, Mom coffee and workouts can move around when life requires it.</p>
+
     <h3>5:00 AM • Start My Day</h3>
     <div class="task"><input id="todo_devotions" type="checkbox"><label for="todo_devotions">Devotions</label></div>
     <div class="task"><input id="todo_prayer" type="checkbox"><label for="todo_prayer">Prayer</label></div>
@@ -86,6 +94,7 @@
     <div class="task"><input id="todo_weather" type="checkbox"><label for="todo_weather">Check weather</label></div>
     <div class="task"><input id="todo_texts" type="checkbox"><label for="todo_texts">Respond to important texts</label></div>
     <div class="task"><input id="todo_mfp" type="checkbox"><label for="todo_mfp">Plan / pre-log today's food in MyFitnessPal</label></div>
+
     <h3>Early Morning • Move + Get Ready</h3>
     <div class="task"><input id="todo_walk" type="checkbox"><label for="todo_walk">Outside walk if possible<span class="small">Ideally first. If it doesn't work, move it later in the day.</span></label></div>
     <div class="task"><input id="todo_gym" type="checkbox"><label for="todo_gym"><span id="gymToday">Gym / workout according to today's plan</span></label></div>
@@ -93,7 +102,9 @@
     <div class="task"><input id="todo_mom" type="checkbox"><label for="todo_mom">Coffee with Mom + makeup while visiting when it works</label></div>
     <div class="task"><input id="todo_kids" type="checkbox"><label for="todo_kids">Kids / breakfast / morning home stuff</label></div>
     <div class="task"><input id="todo_leave" type="checkbox"><label for="todo_leave"><strong id="leaveToday">Out the door target</strong></label></div>
+
     <h3>During the Day</h3>
+
     <h3 style="font-size:17px;margin-top:10px">💼 Work Focus</h3>
     <div class="task"><input id="todo_teamcheck" type="checkbox"><label for="todo_teamcheck">Team check-in</label></div>
     <div class="task"><input id="todo_notes" type="checkbox"><label for="todo_notes">Notes / follow-ups</label></div>
@@ -101,20 +112,24 @@
     <div class="task"><input id="todo_lunchmeet" type="checkbox"><label for="todo_lunchmeet">Lunch / relationship building if scheduled</label></div>
     <div class="task"><input id="todo_office" type="checkbox"><label for="todo_office">Focused office time</label></div>
     <div class="task"><input id="todo_calls" type="checkbox"><label for="todo_calls">Calls / conversations</label></div>
+
     <h3 style="font-size:17px;margin-top:16px">🥗 Health Through the Day</h3>
     <div class="task"><input id="todo_afternoongym" type="checkbox"><label for="todo_afternoongym">Afternoon / midday gym option<span class="small">Use when the morning gym doesn't work, or as your planned Tuesday workout.</span></label></div>
     <div class="task"><input id="todo_food" type="checkbox"><label for="todo_food">Stay with planned food / log in MyFitnessPal</label></div>
     <div class="task"><input id="todo_protein" type="checkbox"><label for="todo_protein">Protein focus</label></div>
     <div class="task"><input id="todo_water" type="checkbox"><label for="todo_water">Water</label></div>
     <div class="task"><input id="todo_steps" type="checkbox"><label for="todo_steps">Work toward 10,000+ steps</label></div>
+
     <h3>Later Afternoon • Recharge</h3>
     <div class="task"><input id="todo_nap" type="checkbox"><label for="todo_nap">Optional nap / quiet rest<span class="small">A reset when you need it, not another daily requirement.</span></label></div>
     <div class="task"><input id="todo_selfhelp" type="checkbox"><label for="todo_selfhelp">Read a self-help / personal growth book</label></div>
+
     <h3>Evening • Family + Real Life</h3>
     <div class="task"><input id="todo_sports" type="checkbox"><label for="todo_sports">Kids' sports / activities if scheduled</label></div>
     <div class="task"><input id="todo_workappt" type="checkbox"><label for="todo_workappt">Work appointments if scheduled</label></div>
     <div class="task"><input id="todo_family" type="checkbox"><label for="todo_family">Family time</label></div>
     <div class="task"><input id="todo_eveningwalk" type="checkbox"><label for="todo_eveningwalk">Evening walk if needed or wanted<span class="small">Backup if morning walk didn't happen, to finish 10K, or an optional second walk.</span></label></div>
+
     <h3>Nightly Reset</h3>
     <div class="task"><input id="todo_lunches" type="checkbox"><label for="todo_lunches">Make lunches</label></div>
     <div class="task"><input id="todo_stepcheck" type="checkbox"><label for="todo_stepcheck">Final step check — 10,000 goal</label></div>
@@ -125,6 +140,7 @@
     <div class="task"><input id="todo_leisureread" type="checkbox"><label for="todo_leisureread">Read a leisure book before bed<span class="small">Wind down and get off the phone.</span></label></div>
     <div class="task"><input id="todo_bed" type="checkbox"><label for="todo_bed">Bedtime that protects tomorrow's early start</label></div>
   </section>
+
   <section class="card">
     <h2>Nutrition & Food Log</h2>
     <p>Use MyFitnessPal for the detailed food diary. Use this section for your daily coaching totals.</p>
@@ -143,27 +159,61 @@
     <div class="task"><input id="foodPlanned" type="checkbox"><label for="foodPlanned">Food planned/logged in MyFitnessPal</label></div>
     <div class="task"><input id="noAlcohol" type="checkbox"><label for="noAlcohol">No alcohol / unnecessary drink calories</label></div>
   </section>
+
   <section class="card">
     <h2>Nightly Reset</h2>
     <div id="nightTasks"></div>
   </section>
+
   <section class="card">
     <h2>Daily Log</h2>
     <div class="grid">
       <div class="metric"><label>Weight (optional)</label><input id="weight" type="number" step="0.1" placeholder="Skip if you want"></div>
       <div class="metric"><label>Energy 1–10</label><input id="energy" type="number" min="1" max="10" placeholder="1–10"></div>
+      <div class="metric"><label>Hours Worked</label><input id="hoursWorked" type="number" step="0.25" min="0" placeholder="e.g. 7.5"></div>
+      <div class="metric"><label>Workout Time (min)</label><input id="workoutMinutes" type="number" step="1" min="0" placeholder="e.g. 45"></div>
     </div>
     <div class="metric" style="margin-top:10px"><label>Today's win</label><textarea id="win" placeholder="One thing you did well..."></textarea></div>
     <div class="metric" style="margin-top:10px"><label>Notes / cravings / patterns</label><textarea id="notes" placeholder="Anything I should know for coaching..."></textarea></div>
     <div class="task"><input id="movedGoal" type="checkbox"><label for="movedGoal">Today's choices moved me toward stronger & leaner.</label></div>
   </section>
+
+  <section class="card">
+    <h2>📊 Weekly Summary</h2>
+    <p>Uses the 7 days ending on the date selected above. Blank days are ignored in averages.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px">
+      <button class="btn gold" onclick="renderWeeklySummary()">Refresh Weekly Summary</button>
+      <button class="btn light" onclick="copyWeeklyCheckin()">Copy Weekly Check-In</button>
+    </div>
+    <div class="weekly-stats" id="weeklyStats"></div>
+    <div class="analysis-box" id="weeklyAnalysis">Add a few days of data, then refresh to see patterns.</div>
+  </section>
 </div>
+
 <div class="footerbar">
   <div class="inner" style="grid-template-columns:1fr">
     <div class="btn light" id="autosaveStatus" style="pointer-events:none">Auto-save is on ✓</div>
+    <button class="btn gold" onclick="saveDay()">Save Now</button>
   </div>
 </div>
+
 <script>
+const morningBase = [
+  ["devotions","Devotions"],
+  ["prayer","Prayer"],
+  ["affirmations","Affirmations"],
+  ["coach","Check in with Chat Coach","30 seconds is enough — consistency first."],
+  ["weather","Check weather"],
+  ["texts","Respond to important texts"],
+  ["mfpplan","Plan / pre-log food in MyFitnessPal","Decide before the busy part of the day starts."]
+];
+
+const movementBase = [
+  ["walk","Outside walk","Best early when it works; move it later when it doesn't."],
+  ["gym","Gym / workout if scheduled"],
+  ["stepscheck","10,000+ steps by bedtime","Evening walk is the backup if you are short."]
+];
+
 const nightBase = [
   ["lunches","Make lunches"],
   ["tomorrowCal","Check tomorrow's calendar"],
@@ -174,6 +224,7 @@ const nightBase = [
   ["kitchen","Quick kitchen / home reset"],
   ["bed","Protect bedtime for the 5 AM wake-up"]
 ];
+
 const plans = {
   0:{name:"Sunday", pills:["Rest day"], note:"Gym off. Normal movement or an easy walk is fine. Recovery counts.", out:null},
   1:{name:"Monday", pills:["Morning gym","Leave ~7:30 for gym"], note:"Walk first if the morning allows. If not, get the gym done and move the walk later.", out:"8:30"},
@@ -183,18 +234,22 @@ const plans = {
   5:{name:"Friday", pills:["Morning gym"], note:"Morning gym day. Walk whenever it fits.", out:"8:30"},
   6:{name:"Saturday", pills:["Morning gym","Flexible morning"], note:"No need for a rigid clock. Gym in the morning, steps through the day.", out:null}
 };
+
 function taskHTML(items, prefix){
   return items.map(([id,label,small]) =>
     `<div class="task"><input type="checkbox" id="${prefix}_${id}">
       <label for="${prefix}_${id}">${label}${small?`<span class="small">${small}</span>`:""}</label></div>`
   ).join("");
 }
+
 document.getElementById("nightTasks").innerHTML = taskHTML(nightBase,"n");
+
 const dateEl = document.getElementById("date");
 dateEl.value = new Date().toISOString().slice(0,10);
 dateEl.addEventListener("change", loadDay);
 
 function dayKey(){ return "ali-reset-"+dateEl.value; }
+
 function renderPlan(){
   const d = new Date(dateEl.value+"T12:00:00");
   const p = plans[d.getDay()];
@@ -215,6 +270,7 @@ function renderPlan(){
   else if(d.getDay()>=1 && d.getDay()<=5) leave.textContent = "Out the door by 8:30 AM";
   else leave.textContent = "Flexible weekend morning";
 }
+
 function allInputs(){
   return [...document.querySelectorAll("input, textarea")].filter(x=>x.id!=="date");
 }
@@ -239,6 +295,7 @@ function loadDay(){
     });
   }
   updateSteps();
+  renderWeeklySummary();
 }
 function resetDay(){
   if(!confirm("Clear today's checkmarks and log?")) return;
@@ -260,12 +317,15 @@ allInputs().forEach(el=>{
   el.addEventListener("change",saveDay);
   if(el.type!=="checkbox") el.addEventListener("input",saveDay);
 });
+
 function copyCoachCheckin(){
   const c=document.getElementById("calories").value||"—";
   const p=document.getElementById("protein").value||"—";
   const s=document.getElementById("steps").value||"—";
   const w=document.getElementById("weight").value||"skip";
   const e=document.getElementById("energy").value||"—";
+  const h=document.getElementById("hoursWorked").value||"—";
+  const m=document.getElementById("workoutMinutes").value||"—";
   const win=document.getElementById("win").value||"—";
   const notes=document.getElementById("notes").value||"—";
   const txt=`Ali coaching check-in — ${dateEl.value}
@@ -274,10 +334,174 @@ Calories: ${c}
 Protein: ${p} g
 Steps: ${s}
 Energy: ${e}/10
+Hours worked: ${h}
+Workout time: ${m} min
 Win: ${win}
 Notes/patterns: ${notes}`;
   navigator.clipboard.writeText(txt).then(()=>alert("Coach check-in copied!"));
 }
+
+function parseWater(v){
+  if(v===undefined || v===null || v==="") return null;
+  const m=String(v).replace(",",".").match(/[\d.]+/);
+  return m ? Number(m[0]) : null;
+}
+
+function getWeekData(){
+  const end = new Date(dateEl.value+"T12:00:00");
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(end);
+    d.setDate(end.getDate()-i);
+    const key=d.toISOString().slice(0,10);
+    const raw=localStorage.getItem("ali-reset-"+key);
+    let data={};
+    if(raw){ try{ data=JSON.parse(raw)||{}; }catch(e){} }
+    days.push({date:key,data});
+  }
+  return days;
+}
+
+function nums(days, key, parser=Number){
+  return days.map(x=>{
+    const v=x.data[key];
+    if(v===undefined || v===null || v==="") return null;
+    const n=parser(v);
+    return Number.isFinite(n)?n:null;
+  }).filter(v=>v!==null);
+}
+function avg(arr){ return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null; }
+function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
+function fmt(v,dec=0){ return v===null ? "—" : Number(v).toFixed(dec); }
+
+function weeklySummaryData(){
+  const days=getWeekData();
+  const calories=nums(days,"calories");
+  const protein=nums(days,"protein");
+  const steps=nums(days,"steps");
+  const energy=nums(days,"energy");
+  const hours=nums(days,"hoursWorked");
+  const workout=nums(days,"workoutMinutes");
+  const water=nums(days,"water",parseWater);
+  const weights=nums(days,"weight");
+  const loggedDays=days.filter(x=>Object.keys(x.data||{}).length>0).length;
+  const stepGoalDays=steps.filter(v=>v>=10000).length;
+  const workoutDays=workout.filter(v=>v>0).length;
+  const foodPlannedDays=days.filter(x=>x.data.foodPlanned===true).length;
+  const noAlcoholDays=days.filter(x=>x.data.noAlcohol===true).length;
+  const movedGoalDays=days.filter(x=>x.data.movedGoal===true).length;
+
+  let weightTrend=null;
+  if(weights.length>=2) weightTrend=weights[weights.length-1]-weights[0];
+
+  return {
+    days, loggedDays,
+    totalHours:hours.length?sum(hours):null,
+    totalWorkout:workout.length?sum(workout):null,
+    workoutDays,
+    avgCalories:avg(calories),
+    avgProtein:avg(protein),
+    avgSteps:avg(steps),
+    avgWater:avg(water),
+    avgEnergy:avg(energy),
+    stepGoalDays,
+    foodPlannedDays,
+    noAlcoholDays,
+    movedGoalDays,
+    weightTrend
+  };
+}
+
+function buildAnalysis(s){
+  if(!s.loggedDays) return {strengths:"Add your daily numbers and your patterns will show here.",focus:"No weekly data yet."};
+  const strengths=[];
+  const focus=[];
+
+  if(s.avgProtein!==null && s.avgProtein>=110) strengths.push(`Protein averaged ${Math.round(s.avgProtein)} g — right on target.`);
+  else if(s.avgProtein!==null) focus.push(`Protein averaged ${Math.round(s.avgProtein)} g; aim for 110+ g more consistently.`);
+
+  if(s.avgSteps!==null && s.avgSteps>=10000) strengths.push(`Movement was strong at ${Math.round(s.avgSteps).toLocaleString()} average steps.`);
+  else if(s.avgSteps!==null) focus.push(`Average steps were ${Math.round(s.avgSteps).toLocaleString()}; look for more 10K days.`);
+
+  if(s.stepGoalDays>=5) strengths.push(`You hit 10,000 steps on ${s.stepGoalDays} days.`);
+  else if(s.loggedDays>=5) focus.push(`You hit 10,000 steps on ${s.stepGoalDays} days; consistency can improve.`);
+
+  if(s.avgCalories!==null && s.avgCalories>=1300 && s.avgCalories<=1400) strengths.push(`Calories averaged ${Math.round(s.avgCalories)}, right in your target range.`);
+  else if(s.avgCalories!==null && s.avgCalories>1400) focus.push(`Calories averaged ${Math.round(s.avgCalories)}; watch for where the extra calories are creeping in.`);
+  else if(s.avgCalories!==null && s.avgCalories<1300) focus.push(`Calories averaged ${Math.round(s.avgCalories)}; make sure you're eating enough to support training.`);
+
+  if(s.workoutDays>=3) strengths.push(`${s.workoutDays} workout days and ${Math.round(s.totalWorkout||0)} total workout minutes.`);
+  else if(s.loggedDays>=4) focus.push(`Only ${s.workoutDays} workout days were logged; protect planned training time.`);
+
+  if(s.noAlcoholDays>=5) strengths.push(`${s.noAlcoholDays} alcohol-free days supported your reset.`);
+  if(s.foodPlannedDays>=5) strengths.push(`Food was planned/logged on ${s.foodPlannedDays} days.`);
+  else if(s.loggedDays>=5) focus.push(`Food planning was checked on ${s.foodPlannedDays} days; planning ahead may help evenings.`);
+
+  if(s.avgEnergy!==null && s.avgEnergy<6) focus.push(`Average energy was ${s.avgEnergy.toFixed(1)}/10; workload, sleep and recovery deserve attention.`);
+
+  if(s.totalHours!==null && s.totalHours>50) focus.push(`You logged ${s.totalHours.toFixed(1)} work hours; watch whether long workdays affect food, steps or recovery.`);
+
+  if(!strengths.length) strengths.push("You're collecting useful data — consistency in logging is the first win.");
+  if(!focus.length) focus.push("Keep repeating what worked and look for one small improvement next week.");
+
+  return {strengths:strengths.join(" "),focus:focus.join(" ")};
+}
+
+function renderWeeklySummary(){
+  const s=weeklySummaryData();
+  const stats=[
+    ["Hours Worked", s.totalHours===null?"—":s.totalHours.toFixed(1)],
+    ["Workout Time", s.totalWorkout===null?"—":Math.round(s.totalWorkout)+" min"],
+    ["Workout Days", s.workoutDays+"/7"],
+    ["Avg Calories", s.avgCalories===null?"—":Math.round(s.avgCalories)],
+    ["Avg Protein", s.avgProtein===null?"—":Math.round(s.avgProtein)+" g"],
+    ["Avg Steps", s.avgSteps===null?"—":Math.round(s.avgSteps).toLocaleString()],
+    ["10K Step Days", s.stepGoalDays+"/7"],
+    ["Avg Water", s.avgWater===null?"—":s.avgWater.toFixed(1)+" L"],
+    ["Avg Energy", s.avgEnergy===null?"—":s.avgEnergy.toFixed(1)+"/10"],
+    ["Food Planned", s.foodPlannedDays+"/7"],
+    ["No Alcohol", s.noAlcoholDays+"/7"],
+    ["Moved Toward Goal", s.movedGoalDays+"/7"]
+  ];
+  if(s.weightTrend!==null){
+    const sign=s.weightTrend>0?"+":"";
+    stats.push(["Weight Trend", sign+s.weightTrend.toFixed(1)+" lb"]);
+  }
+  document.getElementById("weeklyStats").innerHTML=stats.map(([label,value])=>
+    `<div class="weekly-stat"><div class="label">${label}</div><div class="value">${value}</div></div>`
+  ).join("");
+
+  const a=buildAnalysis(s);
+  document.getElementById("weeklyAnalysis").innerHTML=
+    `<strong>Strengths</strong>${a.strengths}<br><br><strong>Focus next week</strong>${a.focus}`;
+}
+
+function copyWeeklyCheckin(){
+  const s=weeklySummaryData();
+  const a=buildAnalysis(s);
+  const start=s.days[0].date;
+  const end=s.days[s.days.length-1].date;
+  const weight=s.weightTrend===null?"—":`${s.weightTrend>0?"+":""}${s.weightTrend.toFixed(1)} lb`;
+  const txt=`Ali weekly coaching check-in — ${start} to ${end}
+Days logged: ${s.loggedDays}/7
+Hours worked: ${s.totalHours===null?"—":s.totalHours.toFixed(1)}
+Workout time: ${s.totalWorkout===null?"—":Math.round(s.totalWorkout)} min
+Workout days: ${s.workoutDays}/7
+Average calories: ${s.avgCalories===null?"—":Math.round(s.avgCalories)}
+Average protein: ${s.avgProtein===null?"—":Math.round(s.avgProtein)} g
+Average steps: ${s.avgSteps===null?"—":Math.round(s.avgSteps)}
+10K step days: ${s.stepGoalDays}/7
+Average water: ${s.avgWater===null?"—":s.avgWater.toFixed(1)+" L"}
+Average energy: ${s.avgEnergy===null?"—":s.avgEnergy.toFixed(1)+"/10"}
+Food planned/logged: ${s.foodPlannedDays}/7
+No alcohol: ${s.noAlcoholDays}/7
+Moved toward stronger & leaner: ${s.movedGoalDays}/7
+Weight trend: ${weight}
+Strengths: ${a.strengths}
+Focus: ${a.focus}`;
+  navigator.clipboard.writeText(txt).then(()=>alert("Weekly check-in copied!"));
+}
+
 loadDay();
 </script>
 </body>
